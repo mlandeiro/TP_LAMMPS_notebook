@@ -27,7 +27,5 @@ COPY lammps /home/jovyan/lammps_ase
 RUN cd /home/jovyan/lammps_ase/build && \
     ./cmake_save_line && \
     make -j$(nproc) && \
-    make install
 
-ENV PATH="/home/jovyan/lammps_ase/install/bin:$PATH"
 
