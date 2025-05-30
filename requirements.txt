@@ -3,7 +3,6 @@ nglview
 lammps
 ipywidgets
 IPython
-os
 numpy
 matplotlib
 random
