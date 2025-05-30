@@ -37,5 +37,5 @@ RUN cd /home/jovyan/lammps_ase/build && \
     make -j$(nproc) && \
     make install
 
-ENV PATH="/home/jovyan/lammps/install/bin:$PATH"
+ENV PATH="/home/jovyan/lammps_ase/install/bin:$PATH"
 
