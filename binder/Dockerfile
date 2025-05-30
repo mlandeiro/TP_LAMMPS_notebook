@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y \
 USER jovyan
 
 # 3. Copier votre propre répertoire LAMMPS
-COPY lammps /home/jovyan/lammps_ase
+COPY lammps_ase /home/jovyan/lammps_ase
 
 # 4. Compiler avec OneAPI (dans /home/jovyan/lammps/build déjà préparé)
 RUN cd /home/jovyan/lammps_ase/build && \
