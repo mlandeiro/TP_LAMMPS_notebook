@@ -1,0 +1,1 @@
+cmake -C ../lammps_options.cmake -D BUILD_SHARED_LIBS=on -D CMAKE_BUILD_TYPE=Release -D LAMMPS_EXCEPTIONS=on -D PKG_PYTHON=on -DPKG_MEAM=on LAMMPS_MACHINE=mpi ../cmake

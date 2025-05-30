@@ -1,0 +1,26 @@
+LAMMPS (3 Nov 2022)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+units metal
+boundary	p p p
+atom_style	atomic
+atom_modify     map array sort 0 0.0
+box tilt large
+
+read_data	hea_01.lmp
+Reading data file ...
+  triclinic box = (0 0 0) to (12.688684 12.718426 12.68379) with tilt (-0.066728883 0.064112348 0.0083918359)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  128 atoms
+  read_data CPU = 0.010 seconds
+#read_data	bulk.lmp
+
+#replicate 4 4 4 # for larger system size test
+
+pair_style      milady
+#pair_coeff	* * Fe.milady.test  Fe
+#pair_coeff	* * Fe.milady  Fe
+pair_coeff	* * hea_test.pot  Ta Ti V W
+ERROR on proc 0: Incorrect number of element names,weights in MILADY potential file (src/MILADY/pair_milady.cpp:428)
+Last command: pair_coeff	* * hea_test.pot  Ta Ti V W

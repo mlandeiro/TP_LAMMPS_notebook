@@ -1,0 +1,52 @@
+# - Find quip
+# Find the native QUIP libraries.
+#
+#  QUIP_LIBRARIES    - List of libraries of the QUIP package
+#  QUIP_FOUND        - True if QUIP library was found.
+#
+include(FindPackageHandleStandardArgs)
+
+
+if (DEFINED ENV{QUIP_DIR})
+  set(QUIP_DIR "${QUIP_DIR}")
+else()
+  get_filename_component(_fullpath "${LAMMPS_LIB_SOURCE_DIR}/quip" REALPATH)
+  if (EXISTS ${_fullpath})
+    set(QUIP_DIR "${_fullpath}")
+  endif()
+endif()
+
+
+if (DEFINED ENV{QUIP_SRC_DIR})
+  set(QUIP_SRC_DIR "${QUIP_SRC_DIR}")
+else()
+  get_filename_component(_fullpath "${LAMMPS_SOURCE_DIR}/QUIP" REALPATH)
+  if (EXISTS ${_fullpath})
+    set(QUIP_SRC_DIR "${_fullpath}")
+  endif()
+endif()
+
+
+find_library(QUIP_LIBRARY NAMES quip HINTS "${QUIP_DIR}")
+
+
+# handle the QUIETLY and REQUIRED arguments and set QUIP_FOUND to TRUE
+# if all listed variables are TRUE
+
+find_package_handle_standard_args(QUIP DEFAULT_MSG QUIP_LIBRARY QUIP_DIR)
+
+# Copy the results to the output variables and target.
+if(QUIP_FOUND)
+  message(found quip)
+  set(QUIP_LIBRARIES ${QUIP_LIBRARY})
+
+  if(NOT TARGET QUIP::QUIP)
+    message(no target)
+    add_library(QUIP::QUIP UNKNOWN IMPORTED)
+    set_target_properties(QUIP::QUIP PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${QUIP_DIR}
+      IMPORTED_LOCATION "${QUIP_LIBRARY}")
+  endif()
+endif()
+
+mark_as_advanced(QUIP_DIR QUIP_LIBRARY)

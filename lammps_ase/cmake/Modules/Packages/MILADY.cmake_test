@@ -1,0 +1,37 @@
+include(FindPackageHandleStandardArgs)
+
+# Check if MILADY_DIR is set manually.
+if (DEFINED ENV{MILADY_DIR})
+  set(MILADY_DIR "${MILADY_DIR}")
+else()
+  get_filename_component(_fullpath "${LAMMPS_SOURCE_DIR}/MILADY" REALPATH)
+  if (EXISTS ${_fullpath})
+    set(MILADY_DIR "${_fullpath}")
+  endif()
+endif()
+message(${MILADY_DIR})
+# Library 
+find_library(MILADY_LIBMILADY NAMES milady HINTS "${MILADY_DIR}/../../lib/milady")
+message(${MILADY_LIBMILADY})
+find_package_handle_standard_args(MILADY DEFAULT_MSG
+  MILADY_DIR
+  MILADY_LIBMILADY)
+
+if(MILADY_FOUND)
+  message("milady found")
+  message(${MILADY_LIBMILADY})
+  if (NOT TARGET MILADY::MILADY)
+    add_library(MILADY::LIBMILADY UNKNOWN IMPORTED)
+    set_target_properties(MILADY::LIBMILADY PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${MILADY_DIR}/../../lib/milady
+      IMPORTED_LOCATION ${MILADY_LIBMILADY})
+    set_property(TARGET MILADY::MILADY PROPERTY
+     INTERFACE_LINK_LIBRARIES MILADY::LIBMILADY)
+    target_link_libraries(lammps PRIVATE MILADY::MILADY)
+  endif()
+endif()
+
+mark_as_advanced(
+  MILADY_DIR
+  MILADY_LIBMILADY
+)

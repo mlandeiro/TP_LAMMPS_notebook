@@ -1,0 +1,29 @@
+--- src/Makefile.orig	2020-05-03 03:50:23.501557199 -0400
++++ src/Makefile	2020-05-03 03:53:32.147681674 -0400
+@@ -10,9 +10,9 @@
+ # List of the common source files
+ objs= InterfaceLammps.o 
+-src=$(patsubst %.o,%.cc,$(objs))
++src=$(objs:.o=.cc)
+ 
+ # Makefile rules
+-all: libnnpif.a nnpif
++all: depend libnnpif.a nnpif
+ 
+ depend:
+ 	$(CXX) -MM $(src) >Makefile.dep
+@@ -22,12 +22,12 @@
+ 
+ libvoro++.a: $(objs)
+ 	rm -f libnnpif.a
+-	ar rs libnnpif.a $^
++	$(AR) rs libnnpif.a $(objs)
+ 
+ voro++: libnnpif.a cmd_line.cc
+ 	$(CXX) $(CFLAGS) -L. -o nnp cmd_line.cc -lnnp
+ 
+-%.o: %.cc
++.cc.o:
+ 	$(CXX) $(CFLAGS) -c $<
+ 
+ help: Doxyfile $(SOURCE)
