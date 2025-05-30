@@ -26,9 +26,11 @@ COPY lammps_ase /home/jovyan/lammps_ase
 # 4. Compiler avec OneAPI (dans /home/jovyan/lammps/build déjà préparé)
 RUN cd /home/jovyan/lammps_ase/build && \
     rm -r * &&\
-    cp ../cmake_save_line .&&\
-    chmod +x cmake_save_line && \
-    ./cmake_save_line && \
-    make -j$(nproc) && \
+    cp ../cmake_save_line .
+
+RUN  chmod +x cmake_save_line && \
+    ./cmake_save_line 
+
+RUN make -j$(nproc) 
 
 
